@@ -25,17 +25,23 @@ int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   while (true) {
-    if (Controller.Axis3.position() < 0){
-      Left.spin(vex::directionType::rev, (pow(Controller.Axis3.position(), 2) * -1), velocityUnits::rpm);
-    }else{
-      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position(), 2), velocityUnits::rpm);
+
+    int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
+    Brain.Screen.setCursor(1, 1);
+    if(sign == 1) {
+      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position(), 1.05), velocityUnits::rpm);
+    } else {
+      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position(), 1.05), velocityUnits::rpm);
     }
 
-    if (Controller.Axis3.position() < 0){
-      Right.spin(vex::directionType::rev, (pow(Controller.Axis2.position(), 2) * -1), velocityUnits::rpm);
-    }else{
-      Right.spin(vex::directionType::rev, pow(Controller.Axis2.position(), 2), velocityUnits::rpm);
+    sign = Controller.Axis2.position() >= 0.0f ? -1 : 1;
+    if(sign == 1) {
+      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position(), 1.05), velocityUnits::rpm);
+    } else {
+      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position(), 1.05), velocityUnits::rpm);
     }
     
+    wait(200, msec);
+    Brain.Screen.clearScreen();
   }
 }
