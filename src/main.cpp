@@ -11,6 +11,7 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include<cmath>
 
 using namespace vex;
 //vex::motor name = new vex::motor(PORT)
@@ -24,7 +25,7 @@ int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   while (true) {
-    Left.spin(vex::directionType::rev, Controller.Axis3.position(), velocityUnits::rpm);
-    Right.spin(vex::directionType::fwd, Controller.Axis2.position(), velocityUnits::rpm);
+    Left.spin(vex::directionType::rev, pow(Controller.Axis3.position(), 2), velocityUnits::rpm);
+    Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position(), 2), velocityUnits::rpm);
   }
 }
