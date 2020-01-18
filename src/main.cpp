@@ -25,7 +25,17 @@ int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   while (true) {
-    Left.spin(vex::directionType::rev, pow(Controller.Axis3.position(), 2), velocityUnits::rpm);
-    Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position(), 2), velocityUnits::rpm);
+    if (Controller.Axis3.position() < 0){
+      Left.spin(vex::directionType::rev, (pow(Controller.Axis3.position(), 2) * -1), velocityUnits::rpm);
+    }else{
+      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position(), 2), velocityUnits::rpm);
+    }
+
+    if (Controller.Axis3.position() < 0){
+      Right.spin(vex::directionType::rev, (pow(Controller.Axis2.position(), 2) * -1), velocityUnits::rpm);
+    }else{
+      Right.spin(vex::directionType::rev, pow(Controller.Axis2.position(), 2), velocityUnits::rpm);
+    }
+    
   }
 }
