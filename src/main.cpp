@@ -26,22 +26,48 @@ int main() {
   vexcodeInit();
   while (true) {
 
-    int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
+    if(Controller.ButtonL1.pressing() || Controller.ButtonR1.pressing()){
+
+          int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
     Brain.Screen.setCursor(1, 1);
     if(sign == 1) {
-      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position(), 1.05), velocityUnits::rpm);
+      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position() / 100.0, 3) * 100, velocityUnits::pct);
     } else {
-      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position(), 1.05), velocityUnits::rpm);
+      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position() / 100.0, 3) * 100, velocityUnits::pct);
     }
 
     sign = Controller.Axis2.position() >= 0.0f ? -1 : 1;
     if(sign == 1) {
-      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position(), 1.05), velocityUnits::rpm);
+      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position() / 100.0, 3) * 100, velocityUnits::pct);
     } else {
-      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position(), 1.05), velocityUnits::rpm);
+      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position() / 100.0, 3) * 100, velocityUnits::pct);
     }
     
     wait(200, msec);
     Brain.Screen.clearScreen();
+
+    }else{
+
+          int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
+    Brain.Screen.setCursor(1, 1);
+    if(sign == 1) {
+      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position() / 100.0, 3) * 50, velocityUnits::pct);
+    } else {
+      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position() / 100.0, 3) * 50, velocityUnits::pct);
+    }
+
+    sign = Controller.Axis2.position() >= 0.0f ? -1 : 1;
+    if(sign == 1) {
+      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position() / 100.0, 3) * 50, velocityUnits::pct);
+    } else {
+      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position() / 100.0, 3) * 50, velocityUnits::pct);
+    }
+    
+    wait(200, msec);
+    Brain.Screen.clearScreen();
+
+    }
+
+
   }
 }
