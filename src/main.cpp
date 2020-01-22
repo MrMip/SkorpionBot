@@ -24,9 +24,13 @@ vex::controller Controller = vex::controller();
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
+  bool turbo = false;
   while (true) {
 
-    if(Controller.ButtonL1.pressing() || Controller.ButtonR1.pressing()){
+    if(Controller.ButtonA.pressing()){
+      turbo = true;
+    }
+    if (turbo == true){
 
           int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
     Brain.Screen.setCursor(1, 1);
