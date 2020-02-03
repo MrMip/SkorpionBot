@@ -25,53 +25,48 @@ int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   bool turbo = false;
+  int bit0 = 100;
+  int bit1 = 200;
   while (true) {
 
     if(Controller.ButtonA.pressing()){
       turbo = true;
     }
-    if (turbo == true){
 
-          int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
+    if(Controller.ButtonB.pressing()){
+      turbo = false;
+    }
+
+    //Turbo toggle  
+    if(turbo == true){ bit0 = 200; bit1 = 200;}else{bit0 = 100; bit1 = 100;}
+
+     
+
+  
+
+    //Handbrake stuffs lul 
+    if(Controller.ButtonL1.pressing() || Controller.ButtonL2.pressing()){ bit0 = 0; }else if(turbo){ bit0 = 200; } else{bit0 = 100;}
+    if(Controller.ButtonR1.pressing() || Controller.ButtonR2.pressing()){ bit1 = 0; }else if (turbo){bit1 = 200;} else {bit1 = 100;}
+    
+    int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
     Brain.Screen.setCursor(1, 1);
+
     if(sign == 1) {
-      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position() / 100.0, 3) * 100, velocityUnits::pct);
+      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position() / 100.0, 3) * bit0, velocityUnits::rpm);
     } else {
-      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position() / 100.0, 3) * 100, velocityUnits::pct);
+      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position() / 100.0, 3) * bit0, velocityUnits::rpm);
     }
 
     sign = Controller.Axis2.position() >= 0.0f ? -1 : 1;
     if(sign == 1) {
-      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position() / 100.0, 3) * 100, velocityUnits::pct);
+      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position() / 100.0, 3) * bit1, velocityUnits::rpm);
     } else {
-      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position() / 100.0, 3) * 100, velocityUnits::pct);
+      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position() / 100.0, 3) * bit1, velocityUnits::rpm);
     }
     
     wait(200, msec);
     Brain.Screen.clearScreen();
 
-    }else{
-
-          int sign = Controller.Axis3.position() >= 0.0f ? -1 : 1;
-    Brain.Screen.setCursor(1, 1);
-    if(sign == 1) {
-      Left.spin(vex::directionType::fwd, pow(-Controller.Axis3.position() / 100.0, 3) * 50, velocityUnits::pct);
-    } else {
-      Left.spin(vex::directionType::rev, pow(Controller.Axis3.position() / 100.0, 3) * 50, velocityUnits::pct);
-    }
-
-    sign = Controller.Axis2.position() >= 0.0f ? -1 : 1;
-    if(sign == 1) {
-      Right.spin(vex::directionType::rev, pow(-Controller.Axis2.position() / 100.0, 3) * 50, velocityUnits::pct);
-    } else {
-      Right.spin(vex::directionType::fwd, pow(Controller.Axis2.position() / 100.0, 3) * 50, velocityUnits::pct);
-    }
-    
-    wait(200, msec);
-    Brain.Screen.clearScreen();
-
-    }
-
-
-  }
+  
+}
 }
